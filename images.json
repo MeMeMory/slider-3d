@@ -1,0 +1,14 @@
+[
+	{
+		"url": "./images/image-1.jpg",
+		"alt": "Mountains at dusk"
+	},
+	{
+		"url": "./images/image-2.jpg",
+		"alt": "Mountain lake at sunset"
+	},
+	{
+		"url": "./images/image-3.jpg",
+		"alt": "River through the mountains"
+	}
+]

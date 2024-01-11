@@ -1,0 +1,27 @@
+@import 'main-scss/_null.scss';
+
+html {
+	font-size: 10px;
+}
+
+body {
+	background-color: white;
+	font-family: 'Montserrat';
+	overflow-x: hidden;
+	overflow-y: auto;
+	scrollbar-gutter: stable;
+
+	&.fixed {
+		overflow: hidden;
+	}
+}
+
+.main-wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	.content-wrapper {
+		flex-grow: 1;
+	}
+}
