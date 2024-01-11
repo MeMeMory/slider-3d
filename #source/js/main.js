@@ -4,8 +4,8 @@ const customSlider = (name, opts) => {
 	const slides = Array.from(sliderWrapper.children)
 	const duration = opts.duration
 
-	const arrowLeft = slider.querySelector('.arrow_left')
-	const arrowRight = slider.querySelector('.arrow_right')
+	const arrowLeft = slider.querySelector(`.${opts.navigation.left}`)
+	const arrowRight = slider.querySelector(`.${opts.navigation.right}`)
 
 	let slideIndex = 2
 	let isMoving = false
@@ -47,7 +47,7 @@ const customSlider = (name, opts) => {
 
 	const transformSlides = (slides) => {
 		const transformConfig = {
-			default: { translateZ: 10, rotateY: 45, scale: 1.19 },
+			default: { translateZ: 0, rotateY: 0, scale: 1.19 },
 			prev: { translateZ: 10, rotateY: 45, scale: 1.19 },
 			active: { translateZ: 0, rotateY: 0, scale: 0.955 },
 			next: { translateZ: 10, rotateY: -45, scale: 1.19 },
@@ -70,50 +70,50 @@ const customSlider = (name, opts) => {
 		})
 	}
 
-	const markActiveSlide = () => {
+	const markActiveSlides = () => {
 		const slides = Array.from(sliderWrapper.children)
 
-		slides.map((slide) => {
-			slide.classList.remove('slide-prev', 'slide-active', 'slide-next')
-		})
+		const removeClasses = (slide, classes) => {
+			classes.map((name) => slide.classList.remove(name))
+		}
+
+		const classesConfig = {
+			base: ['slide-prev', 'slide-active', 'slide-next'],
+			duplicate: [
+				'slide-prev-duplicate',
+				'slide-active-duplicate',
+				'slide-next-duplicate',
+			],
+		}
+
+		slides.map((slide) => removeClasses(slide, classesConfig.base))
 
 		slides[slideIndex].classList.add('slide-prev')
 		slides[slideIndex + 1].classList.add('slide-active')
 		slides[slideIndex + 2].classList.add('slide-next')
 
-		slides.map((slide) => {
-			slide.classList.remove(
-				'slide-prev-duplicate',
-				'slide-active-duplicate',
-				'slide-next-duplicate'
-			)
-		})
+		slides.map((slide) => removeClasses(slide, classesConfig.duplicate))
 
-		const addDuplicateMinus = (index, suffix) => {
-			if (slides[slideIndex - index]) {
-				slides[slideIndex - index].classList.add(`slide-${suffix}-duplicate`)
+		const addDuplicate = (index, suffix) => {
+			const targetIndex = slideIndex - index
+
+			if (slides[targetIndex]) {
+				slides[targetIndex].classList.add(`slide-${suffix}-duplicate`)
 			}
 		}
 
-		const addDuplicatePlus = (index, suffix) => {
-			if (slides[slideIndex + index]) {
-				slides[slideIndex + index].classList.add(`slide-${suffix}-duplicate`)
-			}
-		}
-
-		addDuplicateMinus(1, 'next')
-		addDuplicateMinus(2, 'active')
-		addDuplicateMinus(3, 'prev')
-
-		addDuplicatePlus(3, 'prev')
-		addDuplicatePlus(4, 'active')
-		addDuplicatePlus(5, 'next')
+		addDuplicate(1, 'next')
+		addDuplicate(2, 'active')
+		addDuplicate(3, 'prev')
+		addDuplicate(-3, 'prev')
+		addDuplicate(-4, 'active')
+		addDuplicate(-5, 'next')
 
 		transformSlides(slides)
 	}
 
 	const moveSlides = () => {
-		markActiveSlide()
+		markActiveSlides()
 
 		const slide = sliderWrapper.querySelector('.slide')
 		sliderWrapper.style.transform = `translate3d(-${
@@ -195,5 +195,9 @@ window.addEventListener('load', () => {
 	customSlider('custom_slider', {
 		duration: 800,
 		slidesInView: 3,
+		navigation: {
+			left: 'arrow_left',
+			right: 'arrow_right',
+		},
 	})
 })
