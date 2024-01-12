@@ -48,9 +48,9 @@ const customSlider = (name, opts) => {
 	const transformSlides = (slides) => {
 		const transformConfig = {
 			default: { translateZ: 0, rotateY: 0, scale: 1.19 },
-			prev: { translateZ: 10, rotateY: 45, scale: 1.19 },
+			prev: { translateZ: 10, rotateY: 42.5, scale: 1.19 },
 			active: { translateZ: 0, rotateY: 0, scale: 0.955 },
-			next: { translateZ: 10, rotateY: -45, scale: 1.19 },
+			next: { translateZ: 10, rotateY: -42.5, scale: 1.19 },
 		}
 
 		slides.map((slide) => {
@@ -73,10 +73,6 @@ const customSlider = (name, opts) => {
 	const markSlides = () => {
 		const slides = Array.from(sliderWrapper.children)
 
-		const removeClasses = (slide, classes) => {
-			classes.map((name) => slide.classList.remove(name))
-		}
-
 		const classesConfig = {
 			base: ['slide-prev', 'slide-active', 'slide-next'],
 			duplicate: [
@@ -84,6 +80,10 @@ const customSlider = (name, opts) => {
 				'slide-active-duplicate',
 				'slide-next-duplicate',
 			],
+		}
+
+		const removeClasses = (slide, classes) => {
+			classes.map((name) => slide.classList.remove(name))
 		}
 
 		slides.map((slide) => removeClasses(slide, classesConfig.base))
